@@ -27,3 +27,34 @@
             font-size: 16px;
         }
     </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Credit Card Validator</h2>
+        <input type="text" id="cardNumber" placeholder="Enter credit card number">
+        <button onclick="validateCard()">Validate</button>
+        <p id="result"></p>
+    </div>
+    <script>
+        async function validateCard() {
+            const cardNumber = document.getElementById("cardNumber").value;
+            const response = await fetch("/validate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ card_number: cardNumber })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                document.getElementById("result").innerText = `Card Number: ${data.card_number} is ${data.is_valid ? "Valid" : "Invalid"}`;
+            } else {
+                document.getElementById("result").innerText = `Error: ${data.error || "Invalid request"}`;
+            }
+        }
+    </script>
+</body>
+</html>
+    
