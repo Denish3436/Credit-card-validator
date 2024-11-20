@@ -6,7 +6,6 @@ import (
 	"net/http"
 )
 
-// ValidationResult represents the structure of the JSON response.
 type ValidationResult struct {
 	CardNumber string `json:"card_number"`
 	IsValid    bool   `json:"is_valid"`
