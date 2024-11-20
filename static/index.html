@@ -7,54 +7,71 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .container {
             text-align: center;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
         }
         input, button {
+            width: 100%;
             padding: 10px;
-            margin: 5px;
-            font-size: 16px;
+            margin: 10px 0;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Credit Card Validator</h2>
-        <input type="text" id="cardNumber" placeholder="Enter credit card number">
+        <h1>Credit Card Validator</h1>
+        <input type="text" id="cardNumber" placeholder="Enter Credit Card Number" />
         <button onclick="validateCard()">Validate</button>
-        <p id="result"></p>
+        <div id="result" class="result"></div>
     </div>
+
     <script>
         async function validateCard() {
-            const cardNumber = document.getElementById("cardNumber").value;
-            const response = await fetch("/validate", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ card_number: cardNumber })
-            });
+            const cardNumber = document.getElementById('cardNumber').value;
+            const resultDiv = document.getElementById('result');
 
-            const data = await response.json();
+            if (!cardNumber) {
+                resultDiv.textContent = "Please enter a card number.";
+                resultDiv.style.color = "red";
+                return;
+            }
 
-            if (response.ok) {
-                document.getElementById("result").innerText = `Card Number: ${data.card_number} is ${data.is_valid ? "Valid" : "Invalid"}`;
-            } else {
-                document.getElementById("result").innerText = `Error: ${data.error || "Invalid request"}`;
+            try {
+                const response = await fetch('/validate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ card_number: cardNumber })
+                });
+
+                if (!response.ok) {
+                    resultDiv.textContent = "Error: " + (await response.text());
+                    resultDiv.style.color = "red";
+                    return;
+                }
+
+                const data = await response.json();
+                if (data.is_valid) {
+                    resultDiv.textContent = `Card Number ${data.card_number} is VALID.`;
+                    resultDiv.style.color = "green";
+                } else {
+                    resultDiv.textContent = `Card Number ${data.card_number} is INVALID.`;
+                    resultDiv.style.color = "red";
+                }
+            } catch (error) {
+                resultDiv.textContent = "Error validating card: " + error.message;
+                resultDiv.style.color = "red";
             }
         }
     </script>
 </body>
 </html>
-    
