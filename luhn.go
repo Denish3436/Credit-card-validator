@@ -4,7 +4,7 @@ import (
 	"strconv"
 )
 
-// luhnAlgorithm checks if a credit card number is valid using the Luhn algorithm.
+// Checks if a credit card number is valid using the Luhn algorithm.
 func luhnAlgorithm(cardNumber string) bool {
 	var sum int
 	nDigits := len(cardNumber)
@@ -31,6 +31,5 @@ func luhnAlgorithm(cardNumber string) bool {
 		sum += digit
 	}
 
-	// If the total modulo 10 is 0, the number is valid
 	return sum%10 == 0
 }
