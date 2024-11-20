@@ -13,7 +13,6 @@ type ValidationResult struct {
 }
 
 func validateCreditCardHandler(w http.ResponseWriter, r *http.Request) {
-	
 	if r.Method != http.MethodPost {
 		http.Error(w, "Only POST method is supported", http.StatusMethodNotAllowed)
 		return
@@ -33,22 +32,19 @@ func validateCreditCardHandler(w http.ResponseWriter, r *http.Request) {
 
 	isValid := luhnAlgorithm(cardNumber)
 
-
 	response := ValidationResult{
 		CardNumber: cardNumber,
 		IsValid:    isValid,
 	}
-
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
 
 func main() {
-	
 	http.HandleFunc("/validate", validateCreditCardHandler)
+	http.Handle("/", http.FileServer(http.Dir("./static")))
 
-	// Start the HTTP server on port 8080
 	fmt.Println("Server is running on port 8080...")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Println("Failed to start server:", err)
