@@ -12,7 +12,8 @@
 
 #### 1. Clone the repository
 ```bash
-git clone 
+git clone <repo link>
+
 cd Credit-card-validator
 
 go run main.go luhn.go
