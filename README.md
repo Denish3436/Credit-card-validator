@@ -1,6 +1,6 @@
 # Credit Card Validator
 
- I create a project in which we can validat credit card numbers using the **Luhn Algorithm**. It includes both a backend written in **Go ** and a basic frontend built with HTML and JavaScript.
+I create this project in which we can validat credit card numbers using the **Luhn Algorithm**. It includes both a backend written in **Go** and a basic frontend built with **HTML**, **CSS** and **JavaScript**.
 ### Tech Stack
 
 - **Go**: Backend API logic and implementation of Luhn Algorithm.
